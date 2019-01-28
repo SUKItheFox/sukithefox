@@ -1,13 +1,13 @@
 
 <?php 
   $name = $_POST['name'];
-  $email_from = $_POST['email'];
+  $sender_email = $_POST['email'];
   $message = $_POST['message'];
 
-  
+  $email_from = "$sender_email"; 
   $email_subject = "Inquiry to SUKItheFox";
   $email_body = "User Name: $name.\n".
-          "User Email: $email_from.\n".
+          "User Email: $sender_email.\n".
             "User Message: $message.\n";
 
 
@@ -15,7 +15,7 @@
   
   $headers = "From: $email_from \r\n";
 
-  $headers .= "Reply-To: $email_from \r\n";
+  $headers .= "Reply-To: $sender_email \r\n";
 
   mail($email_to,$email_subject,$email_body,$headers);          
 
