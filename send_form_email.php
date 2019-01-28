@@ -7,7 +7,7 @@
   
   $email_subject = "Inquiry to SUKItheFox";
   $email_body = "User Name: $name.\n".
-          "User Email: $visitor_email.\n".
+          "User Email: $email_from.\n".
             "User Message: $message.\n";
 
 
