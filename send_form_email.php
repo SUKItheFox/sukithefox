@@ -1,5 +1,5 @@
 <?
-function send_mail($email,$subject,$msg) {
+function send_mail($email,$subject,$name,$msg) {
 $api_key=(getenv('MAILGUN_API_KEY'));/* Api Key got from https://mailgun.com/cp/my_account */
 $domain ="sandbox596decd0697d48c7aa08d007d503258f.mailgun.org";/* Domain Name you given to Mailgun */
 $ch = curl_init();
@@ -12,6 +12,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, array(
 'from' => 'mari.michelson@gmail.com',
 'to' => $email,
 'subject' => $subject,
+'name' => $name,
 'html' => $msg
 ));
 $result = curl_exec($ch);
@@ -20,10 +21,11 @@ return $result;
 }
    if(isset($_POST['submit'])){
     $name=$_POST['name'];
-    $msg=$_post['message'];
+    $email=$_POST['email'];
+    $msg=$_POST['message'];
     if($name!="" && $msg!=""){
      $ip_address=$_SERVER['REMOTE_ADDR'];
-     send_mail("email@emaildomain.com","New Message","The IP ($ip_address) has sent you a message : <blockquote>$msg</blockquote>");
+     send_mail("mari.michelson@gmail.com","New Message","The IP ($ip_address) has sent you a message : <blockquote>$msg</blockquote>");
      echo "<h2 style='color:green;'>Your Message Has Been Sent</h2>";
     }else{
      echo "<h2 style='color:red;'>Please Fill Up all the Fields</h2>";
