@@ -1,20 +1,32 @@
-<?php 
-require_once('sendgrid-php/sendgrid-php.php');
-
-$from = new SendGrid\Email(null, $_POST['email']);
-$name = new SendGrid\fname(null, $_POST['name']); //senders fname
-$subject = "Email from SUKItheFox Website";
-$to = new SendGrid\Email(null, "mari.michelson@gmail.com");
-$message = new SendGrid\Content(null, $_POST['message']);
-$mail = new SendGrid\Mail($from, $name, $subject, $to, $message);
-
-$apiKey = (getenv('SENDGRID_API_KEY'));
-$sg = new \SendGrid($apiKey);
-
-$response = $sg->client->mail()->send()->post($mail);
-if($response->statusCode() == 202){
-    echo "Email sent successfully";
-}else{
-    echo "Email could not be sent";
+<?
+function send_mail($email,$subject,$msg) {
+$api_key=(getenv('MAILGUN_API_KEY'));/* Api Key got from https://mailgun.com/cp/my_account */
+$domain ="sandbox596decd0697d48c7aa08d007d503258f.mailgun.org";/* Domain Name you given to Mailgun */
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+curl_setopt($ch, CURLOPT_USERPWD, 'api:'.$api_key);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v2/'.$domain.'/messages');
+curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+'from' => 'mari.michelson@gmail.com',
+'to' => $email,
+'subject' => $subject,
+'html' => $msg
+));
+$result = curl_exec($ch);
+curl_close($ch);
+return $result;
 }
-?>
+   if(isset($_POST['submit'])){
+    $name=$_POST['name'];
+    $msg=$_post['message'];
+    if($name!="" && $msg!=""){
+     $ip_address=$_SERVER['REMOTE_ADDR'];
+     send_mail("email@emaildomain.com","New Message","The IP ($ip_address) has sent you a message : <blockquote>$msg</blockquote>");
+     echo "<h2 style='color:green;'>Your Message Has Been Sent</h2>";
+    }else{
+     echo "<h2 style='color:red;'>Please Fill Up all the Fields</h2>";
+    }
+   }
+   ?>
