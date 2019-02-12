@@ -16,10 +16,11 @@ if(isset($_POST['submit'])){
     $mail->SMTPAuth = true; 
     $mail->IsSMTP();
     $mail->Host = "mail.infomaniak.com"; // SMTP server
-    $mail->Username = "mari@to-bee.art";
-    $mail->Password = "Valgus9Armastus8";
+    $mail->Username = ENV['EMAIL_USERNAME'];
+    $mail->Password = ENV['EMAIL_PASSWORD'];
     $mail->SMTPSecure = 'tls';   
     $mail->Port = 587; 
+   
 
     $mail->AddAddress('mari@to-bee.art');
     $mail->From = "mari@to-bee.art";
