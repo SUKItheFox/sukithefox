@@ -7,6 +7,7 @@ jQuery.noConflict()(function($) {
     $(document).ready(function() {
 
         $('.owl-carousel').owlCarousel({
+            rtl:true,
             loop:true,
             margin:10,
             responsiveClass:true,
